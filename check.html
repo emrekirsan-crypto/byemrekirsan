@@ -96,6 +96,7 @@ footer{display:flex;justify-content:space-between;padding:26px 0 40px;border-top
 }
 @media (prefers-reduced-motion: reduce){.screen.on{animation:none}.opt{transition:none}}
 </style>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="40d763a4-e63f-450d-ba76-feec5ee81941" data-domains="byemrekirsan.com,www.byemrekirsan.com"></script>
 </head>
 <body>
 <div class="page">
@@ -137,7 +138,7 @@ footer{display:flex;justify-content:space-between;padding:26px 0 40px;border-top
     <div class="legend"><span><i style="background:var(--flow)"></i><span data-t="lgFlow">Flowing</span></span><span><i style="background:var(--route)"></i><span data-t="lgSlow">Slow</span></span><span><i style="background:repeating-linear-gradient(90deg,var(--jam) 0 6px,transparent 6px 9px)"></i><span data-t="lgJam">Stuck</span></span></div>
     <div class="recs" id="recs"></div>
     <div class="cta-row">
-      <a class="btn" id="mail" href="#"><span data-t="mail">Email me this result</span> →</a>
+      <a class="btn" id="mail" href="#" data-umami-event="check-email"><span data-t="mail">Email me this result</span> →</a>
       <a class="btn ghost" href="example-case-study.html" data-t="seeEx">See an example project</a>
     </div>
     <p class="note" data-t="disclaimer">This is a quick self-check, not a full analysis. A real assessment means watching the work as it happens.</p>
@@ -295,7 +296,7 @@ function results(){
   // Analiz aracı kurulunca (Umami) tamamlanan testleri sayar; şimdilik bir şey yapmaz
   try{ window.umami && umami.track('check-complete',{score}); }catch(e){}
 }
-$('start').addEventListener('click',()=>{cur=0; renderQ(); show('s-q');});
+$('start').addEventListener('click',()=>{ try{ window.umami && umami.track('check-start'); }catch(e){}cur=0; renderQ(); show('s-q');});
 $('prev').addEventListener('click',()=>{ if(cur>0){cur--; renderQ();} });
 $('again').addEventListener('click',()=>{answers.fill(null); cur=0; show('s-intro');});
 document.addEventListener('keydown',e=>{
