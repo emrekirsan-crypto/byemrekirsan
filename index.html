@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emre Kirsan</title>
+<meta name="description" content="I find where work gets stuck, and build what gets it moving again. Websites and small business systems from Istanbul.">
+<meta property="og:title" content="Emre Kirsan · byemrekirsan.com">
+<meta property="og:description" content="I find where work gets stuck, and build what gets it moving again.">
+<meta property="og:url" content="https://byemrekirsan.com">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://byemrekirsan.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0c0e12">
+<link rel="canonical" href="https://byemrekirsan.com/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{
+  --bg:#e9ebe8; --surface:#f7f8f6; --ink:#0c0e12; --muted:#5b616b; --rule:#cfd3cf;
+  --route:#ffb800;   /* ana hat: trafik sarısı */
+  --stop:#2747f5;    /* duraklar: sinyal mavisi */
+  --display:"Anybody", "Arial Narrow", sans-serif;
+  --body:"Hanken Grotesk", system-ui, sans-serif;
+  --board:"Martian Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#0c0e12; --surface:#14171d; --ink:#e9ebe8; --muted:#8d939c; --rule:#262a31; --stop:#6f86ff; }
+}
+:root[data-theme="dark"]{ --bg:#0c0e12; --surface:#14171d; --ink:#e9ebe8; --muted:#8d939c; --rule:#262a31; --stop:#6f86ff; }
+
+@view-transition{navigation:auto}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+::selection{background:var(--route);color:#0c0e12}
+.page{max-width:1180px;margin:0 auto;padding:0 32px 0 96px}
+
+/* ---------- üst bar ---------- */
+.top{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+.mark{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;letter-spacing:-.01em}
+.mark svg{view-transition-name:logo;width:30px;height:30px;flex:none;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.mark:hover svg{transform:rotate(-12deg)}
+.mark .ring{stroke:var(--bg)}
+.mark .start{fill:var(--stop)}
+.mark .draw{stroke-dasharray:1900;stroke-dashoffset:1900;animation:draw 1.4s .2s cubic-bezier(.6,.05,.25,1) forwards}
+.mark .pop{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:pop .35s forwards}
+.mark .pop.a{animation-delay:.1s}.mark .pop.b{animation-delay:1.45s}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{transform:scale(1)}}
+.top nav{display:flex;gap:28px;align-items:center}
+.top nav a{text-decoration:none;color:var(--muted);font-size:15px}
+.top nav a:hover{color:var(--ink)}
+.top nav a.check{color:var(--ink);font-weight:600;box-shadow:inset 0 -3px 0 var(--route)}
+.switch{display:flex;gap:2px;align-items:center;font-size:14px;color:var(--muted)}
+.switch button{background:none;border:none;color:inherit;font:inherit;cursor:pointer;padding:4px 5px;border-radius:4px}
+.switch button[aria-pressed="true"]{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--route);text-decoration-thickness:3px;text-underline-offset:5px}
+.switch .sep{opacity:.4}
+.switch .theme{cursor:pointer;width:22px;height:22px;padding:0;border-radius:50%;border:2px solid var(--ink);background:linear-gradient(90deg,var(--ink) 50%,transparent 50%);margin-left:14px}
+
+/* ---------- soldaki rota çizgisi ---------- */
+.rail{position:fixed;left:44px;top:110px;bottom:48px;width:2px;background:var(--rule);z-index:5}
+.rail .done{position:absolute;left:0;top:0;width:100%;background:var(--route);height:0}
+.rail .rider{position:absolute;left:50%;top:0;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:var(--route);box-shadow:0 0 0 3px var(--ink)}
+.rail .tick{position:absolute;left:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--bg);border:2px solid var(--muted);transition:.3s}
+.rail .tick.on{border-color:var(--ink);background:var(--stop)}
+.rail .now{position:absolute;left:22px;top:0;transform:translateY(-50%);font-size:13px;white-space:nowrap;color:var(--muted);transition:opacity .2s}
+
+/* ---------- hero ---------- */
+.hero{min-height:calc(100vh - 80px);display:flex;flex-direction:column;justify-content:center;padding:40px 0 60px}
+.status{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:15px;margin-bottom:22px}
+.status .clock{font-family:var(--board);font-size:13px;color:var(--ink);letter-spacing:.02em}
+.status .clock b{font-weight:500;color:var(--ink)}
+.status .colon{animation:tick 2s steps(1) infinite}
+@keyframes tick{50%{opacity:.2}}
+.status .sep{opacity:.4}
+
+.name{font-family:var(--display);font-weight:800;font-size:clamp(64px,13.5vw,196px);line-height:.86;letter-spacing:-.025em;text-transform:uppercase;user-select:none}
+.name .row{display:block;white-space:nowrap}
+.name .ch{display:inline-block;font-variation-settings:"wdth" 50,"wght" 300;opacity:0;transition:font-variation-settings .35s cubic-bezier(.2,.8,.2,1)}
+.name .ch.ready{opacity:1}
+.name .row:last-child{padding-left:.6em}
+.name .row:last-child .ch:first-child{color:var(--route);-webkit-text-stroke:0}
+
+.lead{margin-top:34px;font-size:clamp(22px,2.4vw,30px);line-height:1.25;max-width:24ch;font-weight:500;letter-spacing:-.01em}
+.sub{margin-top:14px;color:var(--muted);max-width:44ch}
+
+.cta-row{display:flex;gap:34px;flex-wrap:wrap;align-items:center;margin-top:34px}
+.cta-row .go{margin-top:0}
+.go.alt span{border-bottom-color:var(--rule)}
+.go.alt:hover span{border-bottom-color:var(--route)}
+.go.alt svg{transform:none}
+.go.alt:hover svg{transform:translateX(4px)}
+.go{display:inline-flex;align-items:center;gap:12px;margin-top:34px;font-weight:600;text-decoration:none;font-size:19px;width:max-content}
+.go span{border-bottom:3px solid var(--route);padding-bottom:2px}
+.go svg{transition:transform .25s}
+.go:hover svg{transform:translateY(4px)}
+
+/* hero rota diyagramı */
+.map{margin-top:56px;width:100%;max-width:900px}
+.map svg{width:100%;height:auto;overflow:visible}
+.map .track{fill:none;stroke:var(--rule);stroke-width:6;stroke-linecap:round}
+.map .line{fill:none;stroke:var(--route);stroke-width:6;stroke-linecap:round}
+.map .node{fill:var(--bg);stroke:var(--muted);stroke-width:4;transition:.3s}
+.map .node.on{stroke:var(--ink);fill:var(--stop)}
+.map .lbl{font-family:var(--body);font-size:22px;fill:var(--muted);transition:fill .3s}
+.map .lbl.on{fill:var(--ink)}
+.map .dot{fill:var(--route);stroke:var(--ink);stroke-width:4}
+
+/* ---------- bölümler ---------- */
+section{padding:120px 0;border-top:2px solid var(--ink)}
+.head{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:64px}
+.head h2{font-family:var(--display);font-weight:800;font-variation-settings:"wdth" 70;font-size:clamp(46px,6.5vw,92px);line-height:.9;text-transform:uppercase;letter-spacing:-.02em}
+.head p{color:var(--muted);max-width:38ch;justify-self:end}
+
+/* yaklaşım: yatay hat + duraklar */
+.line4{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding-top:44px}
+.line4::before{content:"";position:absolute;top:13px;left:0;right:0;height:6px;border-radius:6px;background:var(--rule)}
+.line4 .fill{position:absolute;top:13px;left:0;height:6px;border-radius:6px;background:var(--route);width:0;transition:width 2.2s cubic-bezier(.6,.05,.25,1)}
+.line4.in .fill{width:100%}
+.st{position:relative}
+.st::before{content:"";position:absolute;top:-40px;left:0;width:18px;height:18px;border-radius:50%;background:var(--bg);border:4px solid var(--muted);transition:.35s}
+.st.on::before{border-color:var(--ink);background:var(--stop);transform:scale(1.15)}
+.st h3{font-family:var(--display);font-weight:700;font-variation-settings:"wdth" 110;font-size:30px;line-height:1;margin-bottom:12px;text-transform:uppercase}
+.st p{color:var(--muted);font-size:16.5px}
+.st{opacity:.35;transition:opacity .5s;cursor:pointer;outline:none;border-radius:6px}
+.st.on{opacity:1}
+.st:hover h3,.st:focus-visible h3{text-decoration:underline;text-decoration-color:var(--route);text-decoration-thickness:3px;text-underline-offset:5px}
+.st.active::before{background:var(--route);border-color:var(--ink);transform:scale(1.45)}
+.hint{margin-top:30px;font-size:14px;color:var(--muted)}
+.peek{margin-top:14px;display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;padding:22px 26px;background:var(--surface);border:1px solid var(--rule);border-left:6px solid var(--route);border-radius:12px;transition:opacity .25s}
+.peek.fade{opacity:0}
+.peek .stepno{font-family:var(--board);font-size:13px;width:38px;height:38px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center}
+.peek .k{font-family:var(--board);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.peek p{margin-top:4px;font-size:18px;font-weight:500;line-height:1.4}
+.peek a{font-weight:600;white-space:nowrap;text-decoration:none;border-bottom:3px solid var(--route)}
+
+/* işler: kalkış panosu */
+.board{background:#0c0e12;color:#f2f0e6;border-radius:14px;padding:26px 28px 30px;font-family:var(--board);box-shadow:0 0 0 2px var(--ink)}
+.board .bh{display:flex;justify-content:space-between;color:#ffb800;font-size:13px;letter-spacing:.06em;padding-bottom:14px;border-bottom:1px solid #2a2e36;margin-bottom:6px}
+.board .row{display:grid;grid-template-columns:1fr auto;gap:20px;padding:14px 0;border-bottom:1px dashed #2a2e36;font-size:clamp(14px,1.8vw,19px)}
+.board .row:last-child{border-bottom:none}
+.board .row .s{color:#ffb800}
+.board .row:last-child .s{color:#5ee08f}
+.board .f{display:inline-block;min-width:1ch}
+.board .note{margin-top:18px;font-family:var(--body);color:#9aa0a8;font-size:15px}
+.board .note a{color:#f2f0e6}
+.example{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:22px;padding:22px 26px;border:2px solid var(--ink);border-radius:14px;text-decoration:none;transition:background .25s,color .25s}
+.example:hover{background:var(--ink);color:var(--bg)}
+.example .k{font-family:var(--board);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.example:hover .k{color:var(--route)}
+.example strong{display:block;font-family:var(--display);font-weight:700;font-variation-settings:"wdth" 95;font-size:clamp(22px,2.6vw,32px);line-height:1.05;text-transform:uppercase;margin-top:6px}
+.example .arr{font-size:30px;transition:transform .25s}
+.example:hover .arr{transform:translateX(6px)}
+
+/* hakkımda */
+.about{display:grid;grid-template-columns:1.2fr 1fr;gap:72px}
+.about .big{font-family:var(--display);font-weight:600;font-variation-settings:"wdth" 85;font-size:clamp(30px,3.6vw,48px);line-height:1.08;letter-spacing:-.01em}
+.about .big mark{background:none;color:inherit;box-shadow:inset 0 -.32em 0 var(--route)}
+.about p + p{margin-top:18px}
+.about .txt p{color:var(--muted)}
+.facts{margin-top:32px;border-top:2px solid var(--ink)}
+.facts div{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid var(--rule)}
+.facts dt{color:var(--muted)}
+.facts dd{text-align:right;font-weight:500}
+.nowline{margin-top:30px;padding:18px 20px;border:2px solid var(--ink);border-radius:12px;position:relative}
+.nowline .k{font-family:var(--board);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.nowline .k::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--route);box-shadow:0 0 0 2px var(--ink)}
+.nowline p{margin-top:6px;color:var(--ink) !important;font-weight:500}
+.writing{margin-top:56px}
+.writing h3{font-family:var(--board);font-size:12.5px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.writing a{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--rule);text-decoration:none}
+.writing a:first-of-type{border-top:2px solid var(--ink)}
+.writing a strong{font-weight:600;font-size:18px;line-height:1.35}
+.writing a:hover strong{text-decoration:underline;text-decoration-color:var(--route);text-decoration-thickness:3px;text-underline-offset:4px}
+.writing a span{font-family:var(--board);font-size:12px;color:var(--muted);white-space:nowrap}
+.writing .more{display:inline-block;margin-top:14px;color:var(--muted);font-size:15px}
+.writing .more:hover{color:var(--ink)}
+.ct-check{margin-top:30px;color:var(--muted)}
+.ct-check a{color:var(--ink);font-weight:600;text-decoration:none;border-bottom:3px solid var(--route)}
+
+/* iletişim */
+.contact{padding:140px 0 120px}
+.contact h2{font-family:var(--display);font-weight:800;font-variation-settings:"wdth" 70;font-size:clamp(44px,7vw,104px);line-height:.9;text-transform:uppercase;letter-spacing:-.02em;max-width:12ch}
+.mail{display:inline-block;margin-top:44px;font-family:var(--display);font-weight:700;font-size:clamp(26px,4.4vw,60px);text-decoration:none;font-variation-settings:"wdth" 75;transition:font-variation-settings .45s cubic-bezier(.2,.8,.2,1);border-bottom:5px solid var(--route);line-height:1.15;word-break:break-all}
+.mail:hover{font-variation-settings:"wdth" 120}
+.links{margin-top:40px;display:flex;gap:28px;flex-wrap:wrap}
+.links a{text-decoration:none;color:var(--muted);font-weight:500}
+.links a:hover{color:var(--ink)}
+.links a::after{content:" ↗"}
+
+footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:28px 0 40px;border-top:1px solid var(--rule);color:var(--muted);font-size:14px}
+
+/* görünür olunca */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s, transform .8s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none;transition:none}
+  .mark .pop{animation:none;transform:none}
+  .name .ch{opacity:1;transition:none}
+  .line4 .fill{transition:none}
+  .status .colon{animation:none}
+  .mark .draw{animation:none;stroke-dashoffset:0}
+}
+@media (max-width: 1320px){ .rail .now{display:none} }
+@media (max-width: 900px){
+  .page{padding:0 20px 0 20px}
+  .rail{display:none}
+  .top nav a{display:none}
+  .head{grid-template-columns:1fr;gap:16px}
+  .head p{justify-self:start}
+  .line4{grid-template-columns:1fr;padding:0 0 0 44px;gap:40px}
+  .line4::before,.line4 .fill{top:0;left:13px;right:auto;width:6px;height:100%}
+  .line4 .fill{height:0;width:6px;transition:height 2.2s cubic-bezier(.6,.05,.25,1)}
+  .line4.in .fill{height:100%;width:6px}
+  .st::before{top:2px;left:-40px}
+  .about{grid-template-columns:1fr;gap:36px}
+  .peek{grid-template-columns:1fr;gap:12px}
+  .writing a{grid-template-columns:1fr}
+  section{padding:84px 0}
+  .map .lbl{font-size:40px}
+  .map{margin-top:40px}
+}
+</style>
+</head>
+<body>
+
+<!-- soldaki rota: sayfa ilerledikçe sarı nokta aşağı iner -->
+<div class="rail" aria-hidden="true"><div class="done"></div><div class="rider"></div><span class="now"></span></div>
+
+<div class="page">
+
+<header class="top">
+  <a class="mark" href="#top" aria-label="byemrekirsan, home">
+    <svg viewBox="200 260 680 620" aria-hidden="true"><path class="draw" d="M300 540 H780 A240 240 0 1 0 710 710" fill="none" stroke="#ffb800" stroke-width="96" stroke-linecap="round"/><circle class="start ring pop a" cx="300" cy="540" r="62" stroke-width="22"/><g class="pop b"><circle class="ring" cx="722" cy="722" r="78" fill="#ffb800" stroke-width="24"/><circle cx="722" cy="722" r="30" fill="#0c0e12"/></g></svg>byemrekirsan</a>
+  <nav>
+    <a href="#approach" data-i18n="nav.approach">Approach</a>
+    <a href="#work" data-i18n="nav.work">Work</a>
+    <a href="#about" data-i18n="nav.about">About</a>
+    <a href="#contact" data-i18n="nav.contact">Contact</a>
+    <a href="check.html" class="check" data-i18n="nav.check">2-min check</a>
+    <div class="switch" role="group" aria-label="Language">
+      <button data-lang="en" aria-pressed="true">EN</button><span class="sep">/</span>
+      <button data-lang="tr" aria-pressed="false">TR</button><span class="sep">/</span>
+      <button data-lang="de" aria-pressed="false">DE</button>
+      <button class="theme" id="theme" aria-label="Light / dark"></button>
+    </div>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<main id="top" class="hero" data-stop="stop.start">
+  <p class="status"><span class="clock"><span data-i18n="clock.city">Istanbul</span> <b id="hh">--</b><span class="colon">:</span><b id="mm">--</b></span><span class="sep">/</span><span data-i18n="hero.status">taking on new projects</span></p>
+  <h1 class="name" lang="en" aria-label="Emre Kirsan"><span class="row">EMRE</span><span class="row">KIRSAN</span></h1>
+  <p class="lead" data-i18n="hero.lead">I find where work gets stuck, and build what gets it moving again.</p>
+  <p class="sub" data-i18n="hero.sub">Websites and small business systems, designed around how people actually work.</p>
+  <div class="cta-row">
+  <a class="go" href="#contact"><span data-i18n="hero.cta">Write to me</span>
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 2v13M3 9l6 6 6-6"/></svg></a>
+  <a class="go alt" href="check.html"><span data-i18n="hero.check">Where does your work get stuck? Take the 2-minute check</span>
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 9h13M10 4l5 5-5 5"/></svg></a>
+  </div>
+
+  <div class="map" aria-hidden="true">
+    <svg viewBox="0 0 1000 190">
+      <path id="rt-track" class="track" d="M20 130 C 170 130 200 50 330 50 S 470 140 590 140 S 800 40 980 60"/>
+      <path id="rt-line" class="line" d="M20 130 C 170 130 200 50 330 50 S 470 140 590 140 S 800 40 980 60"/>
+      <g id="rt-nodes"></g>
+      <circle id="rt-dot" class="dot" r="11" cx="20" cy="130"/>
+    </svg>
+  </div>
+</main>
+
+<!-- ============ YAKLAŞIM ============ -->
+<section id="approach" data-stop="stop.approach">
+  <div class="head rv">
+    <h2 data-i18n="ap.title">How a project moves</h2>
+    <p data-i18n="ap.desc">Four stops. Same order every time.</p>
+  </div>
+  <div class="line4" id="line4">
+    <div class="fill"></div>
+    <div class="st" role="button" tabindex="0" data-step="0"><h3 data-i18n="s1.t">Observe</h3><p data-i18n="s1.d">I watch the work as it happens and note who does what, and in which order.</p></div>
+    <div class="st" role="button" tabindex="0" data-step="1"><h3 data-i18n="s2.t">Measure</h3><p data-i18n="s2.d">Bottlenecks, waiting, double work: I make them visible, so we fix the right thing.</p></div>
+    <div class="st" role="button" tabindex="0" data-step="2"><h3 data-i18n="s3.t">Build</h3><p data-i18n="s3.d">A simple website or system, shaped exactly to the need. Nothing extra.</p></div>
+    <div class="st" role="button" tabindex="0" data-step="3"><h3 data-i18n="s4.t">Follow up</h3><p data-i18n="s4.d">After launch I keep an eye on the numbers and improve it step by step.</p></div>
+  </div>
+  <p class="hint" data-i18n="ap.hint">Click a stop to see it in the example project.</p>
+  <div class="peek" id="peek" aria-live="polite">
+    <span class="stepno" id="peekNo">01</span>
+    <div><span class="k" data-i18n="peek.k">From the example project</span><p id="peekText"></p></div>
+    <a href="example-case-study.html" data-i18n="peek.more">Read it →</a>
+  </div>
+</section>
+
+<!-- ============ İŞLER ============ -->
+<section id="work" data-stop="stop.work">
+  <div class="head rv">
+    <h2 data-i18n="wk.title">Work</h2>
+    <p data-i18n="wk.desc">Nothing on the board yet. The first case studies are on their way.</p>
+  </div>
+  <!-- Projeler bitince bu panoyu proje kartlarıyla değiştireceğiz. -->
+  <div class="board rv" id="board">
+    <div class="bh"><span data-i18n="bd.h1">UP NEXT</span><span data-i18n="bd.h2">STATUS</span></div>
+    <div class="row"><span class="p"></span><span class="s"></span></div>
+    <div class="row"><span class="p"></span><span class="s"></span></div>
+    <div class="row"><span class="p"></span><span class="s"></span></div>
+    <p class="note" data-i18n="bd.note">Want the third slot? <a href="#contact">Get in touch.</a></p>
+  </div>
+  <a class="example rv" href="example-case-study.html"><span><span class="k" data-i18n="ex.k">Example case study</span><strong data-i18n="ex.t">Orders that stopped getting lost</strong></span><span class="arr" aria-hidden="true">→</span></a>
+</section>
+
+<!-- ============ HAKKIMDA ============ -->
+<section id="about" data-stop="stop.about">
+  <div class="about">
+    <p class="big rv" data-i18n="ab.big">I've worked a lot of different jobs. Each one taught me the same thing: <mark>most problems are process problems.</mark></p>
+    <div class="txt rv">
+      <p data-i18n="ab.p1">Before I write a line of code, I want to see how the work actually happens: who waits for whom, where things get lost, what people do by hand every day.</p>
+      <p data-i18n="ab.p2">Then I build the simplest thing that fixes it. Sometimes that's a website. Sometimes it's a small system that saves someone an hour a day.</p>
+      <dl class="facts">
+        <div><dt data-i18n="f1.l">Works on</dt><dd data-i18n="f1.v">Websites, business systems, data, AI</dd></div>
+        <div><dt data-i18n="f2.l">Based in</dt><dd data-i18n="f2.v">Istanbul</dd></div>
+        <div><dt data-i18n="f3.l">Available for</dt><dd data-i18n="f3.v">Freelance projects</dd></div>
+      </dl>
+      <!-- "Şu an" satırı: ayda bir güncelle -->
+      <div class="nowline"><span class="k" data-i18n="now.l">Now · October 2026</span><p data-i18n="now.v">Mapping how files move through a small office, step by step.</p></div>
+    </div>
+  </div>
+  <div class="writing rv">
+    <h3 data-i18n="wr.l">Writing</h3>
+    <a href="https://medium.com/@sametkirsan/can-machines-think-cahit-arfs-1959-vision-re-read-today-ae5ec33050f9" target="_blank" rel="noopener"><strong>Can Machines Think? Cahit Arf's 1959 Vision Re-read Today</strong><span>EN · Medium ↗</span></a>
+    <a href="https://medium.com/@sametkirsan/blokzi%CC%87nci%CC%87r-teknoloji%CC%87si%CC%87ni%CC%87n-tari%CC%87hsel-geli%CC%87%C5%9Fi%CC%87mi%CC%87-ve-temel-ama%C3%A7lari-ve-kullanim-alanlari-776271c72d75" target="_blank" rel="noopener"><strong>Blokzincir teknolojisinin tarihsel gelişimi, temel amaçları ve kullanım alanları</strong><span>TR · Medium ↗</span></a>
+    <a class="more" href="https://medium.com/@sametkirsan" target="_blank" rel="noopener" data-i18n="wr.more">All writing on Medium ↗</a>
+  </div>
+</section>
+
+<!-- ============ İLETİŞİM ============ -->
+<section id="contact" class="contact" data-stop="stop.contact">
+  <h2 class="rv" data-i18n="ct.title">Something keeps getting stuck? Write to me.</h2>
+  <a class="mail rv" href="mailto:hello@byemrekirsan.com">hello@byemrekirsan.com</a>
+  <div class="links rv">
+    <!-- Hesaplarını açınca linkleri güncelle -->
+    <a href="https://www.linkedin.com/in/byemrekirsan" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/byemrekirsan" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://instagram.com/byemrekirsan" target="_blank" rel="noopener">Instagram</a>
+  </div>
+  <p class="ct-check rv" data-i18n="ct.check">Not sure where to start? <a href="check.html">Take the 2-minute check →</a></p>
+</section>
+
+<footer>
+  <span>© <span id="yr"></span> Emre Kirsan</span>
+  <span>byemrekirsan.com</span>
+</footer>
+
+</div>
+
+<script>
+/* ================= METİNLER (3 dil) ================= */
+const T = {
+en:{
+  "nav.check":"2-min check","hero.check":"Where does your work get stuck? Take the 2-minute check","ap.hint":"Click a stop to see it in the example project.","peek.k":"From the example project","peek.more":"Read it →","peek":["Two evenings and one early morning at a bakery, timing every step from the first WhatsApp message to the last delivery.","The slow spot was copying orders onto paper: 50 to 60 minutes every night, and where almost every mistake started.","Not a big app. A short order form with each café's usual order already filled in, closing at 21:00.","After the first month: no more copying by hand, and wrong deliveries down from about 8 to 1."],"now.l":"Now · October 2026","now.v":"Mapping how files move through a small office, step by step.","wr.l":"Writing","wr.more":"All writing on Medium ↗","ct.check":"Not sure where to start? <a href=\"check.html\">Take the 2-minute check →</a>",
+  "meta.title":"Emre Kirsan",
+  "meta.desc":"I find where work gets stuck, and build what gets it moving again. Websites and small business systems from Istanbul.",
+  "nav.approach":"Approach","nav.work":"Work","nav.about":"About","nav.contact":"Contact",
+  "clock.city":"Istanbul","hero.status":"taking on new projects","ex.k":"Example case study · how I document a project","ex.t":"Orders that stopped getting lost",
+  "hero.lead":"I find where work gets stuck, and build what gets it moving again.",
+  "hero.sub":"Websites and small business systems, designed around how people actually work.",
+  "hero.cta":"Write to me",
+  "map":["where it gets stuck","the map","the system"],
+  "stop.start":"Start","stop.approach":"Approach","stop.work":"Work","stop.about":"About","stop.contact":"Contact",
+  "ap.title":"How a project moves","ap.desc":"Four stops. Same order every time.",
+  "s1.t":"Observe","s1.d":"I watch the work as it happens and note who does what, and in which order.",
+  "s2.t":"Measure","s2.d":"Bottlenecks, waiting, double work: I make them visible, so we fix the right thing.",
+  "s3.t":"Build","s3.d":"A simple website or system, shaped exactly to the need. Nothing extra.",
+  "s4.t":"Follow up","s4.d":"After launch I keep an eye on the numbers and improve it step by step.",
+  "wk.title":"Work","wk.desc":"Nothing on the board yet. The first case studies are on their way.",
+  "bd.h1":"UP NEXT","bd.h2":"STATUS",
+  "board":[["CASE STUDY 01","IN PROGRESS"],["CASE STUDY 02","IN PROGRESS"],["YOUR PROJECT?","OPEN"]],
+  "bd.note":"Want the third slot? <a href=\"#contact\">Get in touch.</a>",
+  "ab.big":"I've worked a lot of different jobs. Each one taught me the same thing: <mark>most problems are process problems.</mark>",
+  "ab.p1":"Before I write a line of code, I want to see how the work actually happens: who waits for whom, where things get lost, what people do by hand every day.",
+  "ab.p2":"Then I build the simplest thing that fixes it. Sometimes that's a website. Sometimes it's a small system that saves someone an hour a day.",
+  "f1.l":"Works on","f1.v":"Websites, business systems, data, AI",
+  "f2.l":"Based in","f2.v":"Istanbul",
+  "f3.l":"Available for","f3.v":"Freelance projects",
+  "ct.title":"Something keeps getting stuck? Write to me."
+},
+tr:{
+  "nav.check":"2 dk test","hero.check":"İşiniz nerede tıkanıyor? 2 dakikalık teste başlayın","ap.hint":"Örnek projede görmek için bir durağa tıklayın.","peek.k":"Örnek projeden","peek.more":"Devamını oku →","peek":["Bir fırında iki akşam ve bir sabah erken saat; ilk WhatsApp mesajından son teslimata kadar her adımı ölçtüm.","Yavaşlayan nokta siparişlerin kâğıda geçirilmesiydi: her gece 50-60 dakika ve neredeyse bütün hataların başladığı yer.","Büyük bir uygulama değil. Her kafenin her zamanki siparişinin hazır geldiği, 21:00'de kapanan kısa bir sipariş formu.","İlk ayın sonunda: elle yazma tamamen bitti, yanlış teslimatlar ayda 8'den 1'e indi."],"now.l":"Şu an · Ekim 2026","now.v":"Küçük bir ofiste dosyaların nasıl dolaştığını adım adım haritalıyorum.","wr.l":"Yazılar","wr.more":"Medium'daki tüm yazılar ↗","ct.check":"Nereden başlayacağınızdan emin değil misiniz? <a href=\"check.html\">2 dakikalık teste başlayın →</a>",
+  "meta.title":"Emre Kirsan",
+  "meta.desc":"İşin nerede tıkandığını bulur, yeniden akmasını sağlayacak şeyi kurarım. İstanbul'dan web siteleri ve küçük iş sistemleri.",
+  "nav.approach":"Yaklaşım","nav.work":"İşler","nav.about":"Hakkımda","nav.contact":"İletişim",
+  "clock.city":"İstanbul","hero.status":"yeni projelere açığım","ex.k":"Örnek çalışma · bir projeyi nasıl anlatıyorum","ex.t":"Siparişler artık kaybolmuyor",
+  "hero.lead":"İşin nerede tıkandığını bulur, yeniden akmasını sağlayacak şeyi kurarım.",
+  "hero.sub":"İnsanların gerçekte nasıl çalıştığına göre tasarlanmış web siteleri ve küçük iş sistemleri.",
+  "hero.cta":"Bana yazın",
+  "map":["tıkandığı yer","harita","sistem"],
+  "stop.start":"Başlangıç","stop.approach":"Yaklaşım","stop.work":"İşler","stop.about":"Hakkımda","stop.contact":"İletişim",
+  "ap.title":"Bir proje nasıl ilerler","ap.desc":"Dört durak. Her seferinde aynı sıra.",
+  "s1.t":"Gözlem","s1.d":"İşi yapılırken izler, kimin neyi hangi sırayla yaptığını not ederim.",
+  "s2.t":"Ölçüm","s2.d":"Darboğazlar, beklemeler, çift iş: Doğru şeyi düzeltmek için hepsini görünür kılarım.",
+  "s3.t":"Kurulum","s3.d":"İhtiyaca birebir uyan, sade bir web sitesi ya da sistem. Fazlası değil.",
+  "s4.t":"Takip","s4.d":"Yayından sonra rakamları izler, adım adım geliştiririm.",
+  "wk.title":"İşler","wk.desc":"Panoda henüz bir şey yok. İlk çalışmalar yolda.",
+  "bd.h1":"SIRADAKİLER","bd.h2":"DURUM",
+  "board":[["ÇALIŞMA 01","HAZIRLANIYOR"],["ÇALIŞMA 02","HAZIRLANIYOR"],["SİZİN PROJENİZ?","AÇIK"]],
+  "bd.note":"Üçüncü sıra sizin olsun mu? <a href=\"#contact\">Yazın.</a>",
+  "ab.big":"Çok farklı işlerde çalıştım. Hepsi bana aynı şeyi öğretti: <mark>Sorunların çoğu aslında süreç sorunu.</mark>",
+  "ab.p1":"Tek satır kod yazmadan önce işin gerçekte nasıl yapıldığını görmek isterim: Kim kimi bekliyor, işler nerede kayboluyor, insanlar her gün neyi elle yapıyor.",
+  "ab.p2":"Sonra onu çözen en sade şeyi kurarım. Bazen bu bir web sitesidir, bazen birine günde bir saat kazandıran küçük bir sistem.",
+  "f1.l":"Odak","f1.v":"Web siteleri, iş sistemleri, veri, yapay zekâ",
+  "f2.l":"Konum","f2.v":"İstanbul",
+  "f3.l":"Uygunluk","f3.v":"Serbest projeler",
+  "ct.title":"Sürekli tıkanan bir işiniz mi var? Yazın."
+},
+de:{
+  "nav.check":"2-Min-Check","hero.check":"Wo hakt es bei Ihnen? Machen Sie den 2-Minuten-Check","ap.hint":"Klicken Sie auf eine Station, um sie im Beispielprojekt zu sehen.","peek.k":"Aus dem Beispielprojekt","peek.more":"Weiterlesen →","peek":["Zwei Abende und ein früher Morgen in einer Bäckerei: jeder Schritt gemessen, von der ersten WhatsApp-Nachricht bis zur letzten Lieferung.","Die langsame Stelle war das Abschreiben der Bestellungen auf Papier: 50 bis 60 Minuten jeden Abend, und dort begann fast jeder Fehler.","Keine große App. Ein kurzes Bestellformular, in dem die übliche Bestellung jedes Cafés schon steht, mit Bestellschluss um 21:00.","Nach dem ersten Monat: kein Abschreiben mehr von Hand, falsche Lieferungen von etwa 8 auf 1 gesunken."],"now.l":"Jetzt · Oktober 2026","now.v":"Ich kartiere Schritt für Schritt, wie Akten durch ein kleines Büro wandern.","wr.l":"Texte","wr.more":"Alle Texte auf Medium ↗","ct.check":"Unsicher, wo Sie anfangen sollen? <a href=\"check.html\">Machen Sie den 2-Minuten-Check →</a>",
+  "meta.title":"Emre Kirsan",
+  "meta.desc":"Ich finde heraus, wo Arbeit ins Stocken gerät, und baue, was sie wieder in Fluss bringt. Websites und kleine Geschäftssysteme aus Istanbul.",
+  "nav.approach":"Ansatz","nav.work":"Arbeiten","nav.about":"Über mich","nav.contact":"Kontakt",
+  "clock.city":"Istanbul","hero.status":"offen für neue Projekte","ex.k":"Beispiel-Fallstudie · so dokumentiere ich ein Projekt","ex.t":"Bestellungen, die nicht mehr verloren gehen",
+  "hero.lead":"Ich finde heraus, wo Arbeit ins Stocken gerät, und baue, was sie wieder in Fluss bringt.",
+  "hero.sub":"Websites und kleine Geschäftssysteme, gestaltet nach der Art, wie Menschen wirklich arbeiten.",
+  "hero.cta":"Schreiben Sie mir",
+  "map":["wo es hakt","die Karte","das System"],
+  "stop.start":"Start","stop.approach":"Ansatz","stop.work":"Arbeiten","stop.about":"Über mich","stop.contact":"Kontakt",
+  "ap.title":"Wie ein Projekt vorankommt","ap.desc":"Vier Stationen. Immer in derselben Reihenfolge.",
+  "s1.t":"Beobachten","s1.d":"Ich schaue mir die Arbeit an, während sie passiert, und notiere, wer was in welcher Reihenfolge macht.",
+  "s2.t":"Messen","s2.d":"Engpässe, Wartezeiten, doppelte Arbeit: Ich mache sie sichtbar, damit wir das Richtige verbessern.",
+  "s3.t":"Bauen","s3.d":"Eine schlanke Website oder ein System, genau auf den Bedarf zugeschnitten. Nichts Überflüssiges.",
+  "s4.t":"Begleiten","s4.d":"Nach dem Launch behalte ich die Zahlen im Blick und verbessere Schritt für Schritt.",
+  "wk.title":"Arbeiten","wk.desc":"Noch steht nichts auf der Tafel. Die ersten Fallstudien sind unterwegs.",
+  "bd.h1":"ALS NÄCHSTES","bd.h2":"STATUS",
+  "board":[["FALLSTUDIE 01","IN ARBEIT"],["FALLSTUDIE 02","IN ARBEIT"],["IHR PROJEKT?","FREI"]],
+  "bd.note":"Der dritte Platz ist noch frei. <a href=\"#contact\">Schreiben Sie mir.</a>",
+  "ab.big":"Ich habe in vielen verschiedenen Jobs gearbeitet. Alle haben mir dasselbe gezeigt: <mark>Die meisten Probleme sind Prozessprobleme.</mark>",
+  "ab.p1":"Bevor ich eine Zeile Code schreibe, will ich sehen, wie die Arbeit wirklich passiert: Wer wartet auf wen, wo geht etwas verloren, was erledigen die Leute jeden Tag von Hand.",
+  "ab.p2":"Dann baue ich die einfachste Lösung, die das behebt. Manchmal ist das eine Website, manchmal ein kleines System, das jemandem täglich eine Stunde spart.",
+  "f1.l":"Fokus","f1.v":"Websites, Geschäftssysteme, Daten, KI",
+  "f2.l":"Standort","f2.v":"Istanbul",
+  "f3.l":"Verfügbar für","f3.v":"Freelance-Projekte",
+  "ct.title":"Hakt etwas immer wieder? Schreiben Sie mir."
+}};
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let lang = 'en';
+
+/* ================= 1) İSİM: harfler açılarak gelir, imleç yaklaşınca şişer ================= */
+const BASE = {w:100, g:880}, PEAK = {w:150, g:900};
+const letters = [];
+document.querySelectorAll('.name .row').forEach(row => {
+  const txt = row.textContent; row.textContent = '';
+  [...txt].forEach(c => { const s = document.createElement('span'); s.className='ch'; s.textContent=c; row.appendChild(s); letters.push(s); });
+});
+const setVar = (el,w,g) => el.style.fontVariationSettings = `"wdth" ${w.toFixed(1)}, "wght" ${g.toFixed(0)}`;
+let hovering = false;
+// genişlik dalgası: soldan sağa bir kez geçer
+function wave(){
+  if (reduce) return;
+  letters.forEach((el,i) => {
+    setTimeout(() => { if (!hovering){ setVar(el, PEAK.w, PEAK.g); setTimeout(() => { if (!hovering) setVar(el, BASE.w, BASE.g); }, 260); } }, i*65);
+  });
+}
+letters.forEach((el,i) => setTimeout(() => { el.classList.add('ready'); setVar(el, BASE.w, BASE.g); }, reduce ? 0 : 120 + i*70));
+if (!reduce) setTimeout(wave, 120 + letters.length*70 + 500);
+document.querySelector('.name').addEventListener('click', wave);
+
+if (!reduce && matchMedia('(hover: hover)').matches){
+  const hero = document.querySelector('.hero');
+  hero.addEventListener('mousemove', e => {
+    hovering = true;
+    letters.forEach(el => {
+      const r = el.getBoundingClientRect();
+      const d = Math.hypot(e.clientX - (r.left + r.width/2), e.clientY - (r.top + r.height/2));
+      const k = Math.max(0, 1 - d/380);
+      const kk = k*k*(3-2*k); // yumuşak geçiş
+      setVar(el, BASE.w + kk*(PEAK.w-BASE.w), BASE.g + kk*(PEAK.g-BASE.g));
+    });
+  });
+  hero.addEventListener('mouseleave', () => { hovering = false; letters.forEach(el => setVar(el, BASE.w, BASE.g)); });
+}
+
+/* ================= saat (İstanbul saati) ================= */
+function tickClock(){
+  const parts = new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Istanbul',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());
+  document.getElementById('hh').textContent = parts.find(p=>p.type==='hour').value;
+  document.getElementById('mm').textContent = parts.find(p=>p.type==='minute').value;
+}
+tickClock(); setInterval(tickClock, 15000);
+
+/* ================= 2) HERO ROTASI: çizgi çizilir, nokta duraklara uğrar ================= */
+const track = document.getElementById('rt-track'), line = document.getElementById('rt-line'),
+      dot = document.getElementById('rt-dot'), nodesG = document.getElementById('rt-nodes');
+const L = line.getTotalLength(), STOPS = [0.0, 0.46, 1.0];
+const NS = 'http://www.w3.org/2000/svg', nodes = [], labels = [];
+STOPS.forEach((f,i) => {
+  const p = line.getPointAtLength(L*f);
+  const c = document.createElementNS(NS,'circle'); c.setAttribute('cx',p.x); c.setAttribute('cy',p.y); c.setAttribute('r',14); c.setAttribute('class','node');
+  const t = document.createElementNS(NS,'text'); t.setAttribute('class','lbl');
+  t.setAttribute('x', i===0 ? p.x - 6 : i===2 ? p.x + 6 : p.x);
+  t.setAttribute('y', p.y + (i===1 ? -30 : 46));
+  t.setAttribute('text-anchor', i===0 ? 'start' : i===2 ? 'end' : 'middle');
+  nodesG.append(c,t); nodes.push(c); labels.push(t);
+});
+line.style.strokeDasharray = L;
+function runRoute(){
+  if (reduce){ line.style.strokeDashoffset = 0; nodes.concat(labels).forEach(n=>n.classList.add('on')); const p=line.getPointAtLength(L); dot.setAttribute('cx',p.x); dot.setAttribute('cy',p.y); return; }
+  nodes.concat(labels).forEach(n=>n.classList.remove('on'));
+  const DUR = 4200, PAUSE = 450; let start = null, paused = 0, next = 0;
+  function frame(ts){
+    if (start === null) start = ts;
+    let t = Math.min((ts - start - paused) / DUR, 1);
+    const e = t<.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
+    const p = line.getPointAtLength(L*e);
+    dot.setAttribute('cx',p.x); dot.setAttribute('cy',p.y);
+    line.style.strokeDashoffset = L*(1-e);
+    // durağa gelince kısa mola
+    if (next < STOPS.length && e >= STOPS[next] - 0.001){
+      nodes[next].classList.add('on'); labels[next].classList.add('on'); next++;
+      const until = ts + PAUSE; const hold = (now) => { if (now < until){ requestAnimationFrame(hold); } else { paused += PAUSE; requestAnimationFrame(frame); } };
+      return requestAnimationFrame(hold);
+    }
+    if (t < 1) requestAnimationFrame(frame);
+    else setTimeout(runRoute, 5000); // kurye tekrar yola çıkar
+  }
+  requestAnimationFrame(frame);
+}
+setTimeout(runRoute, reduce ? 0 : 900);
+
+/* ================= 3) KALKIŞ PANOSU: harfler dönerek yerine oturur ================= */
+const CH = 'ABCDEFGHIJKLMNOPRSTUVYZÇĞİÖŞÜ0123456789';
+function flap(el, target, delay){
+  if (reduce){ el.textContent = target; return; }
+  let n = 0; const max = 8 + Math.floor(Math.random()*8);
+  setTimeout(function tick(){
+    if (n++ < max){
+      el.textContent = [...target].map(c => c === ' ' ? ' ' : CH[Math.floor(Math.random()*CH.length)]).join('');
+      setTimeout(tick, 55);
+    } else el.textContent = target;
+  }, delay);
+}
+function fillBoard(){
+  document.querySelectorAll('#board .row').forEach((row,i) => {
+    const [p,s] = T[lang].board[i];
+    flap(row.querySelector('.p'), p, i*220);
+    flap(row.querySelector('.s'), s, i*220 + 160);
+  });
+}
+
+/* ================= durak kesitleri ================= */
+let activeStep = 0;
+const peek = document.getElementById('peek');
+function showStep(i, animate){
+  activeStep = i;
+  document.querySelectorAll('#line4 .st').forEach((s,j) => { s.classList.toggle('active', j===i); if (j<=i) s.classList.add('on'); });
+  const fill = () => { document.getElementById('peekNo').textContent = '0'+(i+1); document.getElementById('peekText').textContent = T[lang].peek[i]; peek.classList.remove('fade'); };
+  if (animate && !reduce){ peek.classList.add('fade'); setTimeout(fill, 180); } else fill();
+}
+document.querySelectorAll('#line4 .st').forEach(s => {
+  const go = () => showStep(+s.dataset.step, true);
+  s.addEventListener('click', go);
+  s.addEventListener('keydown', e => { if (e.key==='Enter' || e.key===' '){ e.preventDefault(); go(); } });
+});
+
+/* ================= 4) DİL ================= */
+function setLang(l){
+  lang = T[l] ? l : 'en';
+  const d = T[lang];
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => { const v = d[el.dataset.i18n]; if (typeof v === 'string') el.innerHTML = v; });
+  labels.forEach((t,i) => t.textContent = d.map[i]);
+  document.title = d["meta.title"];
+  document.querySelector('meta[name="description"]').content = d["meta.desc"];
+  document.querySelectorAll('.switch [data-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
+  if (boardSeen) fillBoard();
+  showStep(activeStep, false);
+  updateRail();
+  try { localStorage.setItem('lang', lang); } catch(e){}
+}
+document.querySelectorAll('.switch [data-lang]').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+/* ================= 5) SOLDAKİ ROTA ================= */
+const rail = document.querySelector('.rail'), done = rail.querySelector('.done'), rider = rail.querySelector('.rider'), now = rail.querySelector('.now');
+const stops = [...document.querySelectorAll('[data-stop]')];
+const ticks = stops.map(() => { const t = document.createElement('i'); t.className='tick'; rail.appendChild(t); return t; });
+function updateRail(){
+  const max = document.documentElement.scrollHeight - innerHeight;
+  const prog = max > 0 ? Math.min(1, scrollY / max) : 0;
+  const h = rail.clientHeight;
+  done.style.height = prog*h + 'px'; rider.style.top = prog*h + 'px'; now.style.top = prog*h + 'px';
+  let current = stops[0];
+  stops.forEach((s,i) => {
+    const f = max > 0 ? Math.min(1, Math.max(0, (s.offsetTop - 80) / max)) : 0;
+    ticks[i].style.top = f*h + 'px';
+    const reached = scrollY + innerHeight*0.45 >= s.offsetTop;
+    ticks[i].classList.toggle('on', reached);
+    if (reached) current = s;
+  });
+  now.textContent = T[lang][current.dataset.stop];
+}
+addEventListener('scroll', updateRail, {passive:true});
+addEventListener('resize', updateRail);
+
+/* ================= 6) GÖRÜNÜR OLUNCA ================= */
+let boardSeen = false;
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  const el = e.target;
+  el.classList.add('in');
+  if (el.id === 'line4'){
+    el.querySelectorAll('.st').forEach((s,i) => setTimeout(() => s.classList.add('on'), reduce ? 0 : 250 + i*520));
+    setTimeout(() => showStep(activeStep, true), reduce ? 0 : 250 + 4*520);
+  }
+  if (el.id === 'board'){ boardSeen = true; fillBoard(); }
+  io.unobserve(el);
+}), {threshold:.25});
+document.querySelectorAll('.rv, #line4').forEach(el => io.observe(el));
+
+/* ================= tema + başlangıç ================= */
+const root = document.documentElement;
+try { const th = localStorage.getItem('theme'); if (th) root.dataset.theme = th; } catch(e){}
+document.getElementById('theme').addEventListener('click', () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('theme', root.dataset.theme); } catch(e){}
+});
+document.getElementById('yr').textContent = new Date().getFullYear();
+let saved = null; try { saved = localStorage.getItem('lang'); } catch(e){}
+setLang(saved || 'en'); // ilk açılış İngilizce
+</script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!doctype html>
+<!--
+  PROJE ANLATIM ŞABLONU
+  Kullanım: Bu dosyayı kopyala, adını proje adıyla değiştir (örn. hukuk-burosu.html),
+  [köşeli parantez] içindeki her şeyi doldur, sonra aşağıdaki "noindex" satırını sil.
+  Yapı: Sorun → Harita → Sistem → Sonuç. Rakam varsa mutlaka rakam yaz.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[Project name] · Emre Kirsan</title>
+<meta name="description" content="[One sentence: what was stuck, what was built, what changed.]">
+<meta name="robots" content="noindex"><!-- yayına alırken bu satırı sil -->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+@view-transition{navigation:auto}
+.top svg{view-transition-name:logo}
+:root{--bg:#e9ebe8;--surface:#f7f8f6;--ink:#0c0e12;--muted:#5b616b;--rule:#cfd3cf;--route:#ffb800;--stop:#2747f5;--jam:#e5484d}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0c0e12;--surface:#14171d;--ink:#e9ebe8;--muted:#8d939c;--rule:#262a31;--stop:#6f86ff;--jam:#ff6369}}
+:root[data-theme="dark"]{--bg:#0c0e12;--surface:#14171d;--ink:#e9ebe8;--muted:#8d939c;--rule:#262a31;--stop:#6f86ff;--jam:#ff6369}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.page{max-width:1080px;margin:0 auto;padding:0 32px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+.top a{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600}
+.top svg{width:30px;height:30px}
+.top .ring{stroke:var(--bg)}
+.top .back{color:var(--muted);font-weight:500;font-size:15px}
+.label{font-family:"Martian Mono",monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* giriş */
+.intro{padding:70px 0 60px}
+h1{font-family:"Anybody",sans-serif;font-weight:800;font-variation-settings:"wdth" 72;text-transform:uppercase;font-size:clamp(48px,8vw,112px);line-height:.9;letter-spacing:-.02em;margin-top:14px;max-width:14ch}
+.intro .lead{margin-top:26px;font-size:clamp(21px,2.3vw,27px);line-height:1.3;font-weight:500;max-width:34ch}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);margin-top:56px;border-top:2px solid var(--ink)}
+.meta div{padding:16px 16px 0 0}
+.meta dd{margin-top:6px;font-weight:500}
+
+/* bölümler */
+section{padding:90px 0;border-top:1px solid var(--rule)}
+.sec{display:grid;grid-template-columns:220px 1fr;gap:48px}
+h2{font-family:"Anybody",sans-serif;font-weight:700;font-variation-settings:"wdth" 90;text-transform:uppercase;font-size:clamp(30px,3.4vw,44px);line-height:1;margin:10px 0 0}
+.body p{max-width:60ch}
+.body p + p{margin-top:16px}
+.body ul{margin:16px 0 0 20px;max-width:60ch}
+.body li + li{margin-top:6px}
+
+/* harita: süreç adımları, tıkanan yer kırmızı */
+.map{margin-top:36px;display:flex;flex-wrap:wrap;row-gap:14px;align-items:center}
+.map .s{display:flex;align-items:center}
+.map .s span{padding:10px 14px;border:2px solid var(--ink);border-radius:999px;font-weight:500;font-size:15.5px;background:var(--surface);white-space:nowrap}
+.map .s::after{content:"";width:34px;height:4px;background:var(--rule)}
+.map .s:last-child::after{display:none}
+.map .s.jam span{border-color:var(--jam);color:var(--jam)}
+.map .s.jam::after{background:repeating-linear-gradient(90deg,var(--jam) 0 6px,transparent 6px 10px)}
+.map-note{margin-top:14px;font-size:15px;color:var(--muted)}
+.map-note b{color:var(--jam)}
+
+/* ekran görüntüsü */
+.shot{margin-top:36px;border:2px solid var(--ink);border-radius:12px;overflow:hidden;background:var(--surface);aspect-ratio:16/10;display:grid;place-items:center;color:var(--muted)}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* sonuç: önce / sonra */
+.results{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
+.r{background:var(--surface);border:1px solid var(--rule);border-radius:14px;padding:22px}
+.r .num{font-family:"Anybody",sans-serif;font-weight:800;font-variation-settings:"wdth" 80;font-size:54px;line-height:1}
+.r .num small{font-size:.45em;color:var(--muted);font-weight:600}
+.r .from{font-family:"Martian Mono",monospace;font-size:13px;color:var(--muted);margin-top:8px;text-decoration:line-through;text-decoration-color:var(--jam)}
+.r p{margin-top:10px;font-size:15.5px;color:var(--muted)}
+
+blockquote{margin-top:40px;padding-left:22px;border-left:5px solid var(--route);font-size:22px;line-height:1.4;font-weight:500;max-width:44ch}
+blockquote cite{display:block;margin-top:12px;font-size:15px;font-style:normal;color:var(--muted);font-weight:400}
+
+.next{padding:110px 0 120px;border-top:2px solid var(--ink)}
+.next a.cta{display:inline-block;margin-top:18px;font-family:"Anybody",sans-serif;font-weight:800;font-variation-settings:"wdth" 75;text-transform:uppercase;font-size:clamp(34px,5.5vw,72px);line-height:1;text-decoration:none;border-bottom:5px solid var(--route)}
+footer{display:flex;justify-content:space-between;padding:26px 0 40px;border-top:1px solid var(--rule);color:var(--muted);font-size:14px}
+
+@media (max-width:860px){
+  .page{padding:0 20px}
+  .meta{grid-template-columns:1fr 1fr;row-gap:16px}
+  .sec{grid-template-columns:1fr;gap:16px}
+  .results{grid-template-columns:1fr}
+  section{padding:70px 0}
+  .map{flex-direction:column;align-items:flex-start}
+  .map .s{flex-direction:column;align-items:flex-start}
+  .map .s::after{width:4px;height:22px;margin-left:24px}
+  .map .s.jam::after{background:repeating-linear-gradient(180deg,var(--jam) 0 6px,transparent 6px 10px)}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="top">
+  <a href="index.html" aria-label="byemrekirsan, home">
+    <svg viewBox="200 260 680 620" aria-hidden="true"><path d="M300 540 H780 A240 240 0 1 0 710 710" fill="none" stroke="#ffb800" stroke-width="96" stroke-linecap="round"/><circle class="ring" cx="300" cy="540" r="62" fill="var(--stop)" stroke-width="22"/><circle class="ring" cx="722" cy="722" r="78" fill="#ffb800" stroke-width="24"/><circle cx="722" cy="722" r="30" fill="#0c0e12"/></svg>byemrekirsan</a>
+  <a class="back" href="index.html#work">← All work</a>
+</header>
+
+<!-- GİRİŞ -->
+<div class="intro">
+  <span class="label">Case study · [Year]</span>
+  <h1>[Project name]</h1>
+  <p class="lead">[One sentence. What was stuck, and what changed. Example: "A small law office was losing deadlines in email threads. Now every case lives in one place."]</p>
+  <dl class="meta">
+    <div><dt class="label">Client</dt><dd>[Client or "Small law office, Istanbul"]</dd></div>
+    <div><dt class="label">My role</dt><dd>[Analysis, design, build]</dd></div>
+    <div><dt class="label">Duration</dt><dd>[6 weeks]</dd></div>
+    <div><dt class="label">Link</dt><dd><a href="[https://...]">[site.com ↗]</a></dd></div>
+  </dl>
+</div>
+
+<!-- 01 SORUN -->
+<section>
+  <div class="sec">
+    <div><span class="label">01</span><h2>The problem</h2></div>
+    <div class="body">
+      <p>[Where did the work get stuck? Describe it the way the client would. Who was waiting for what? What was being done by hand?]</p>
+      <p>[What did it cost them? Time, money, missed deadlines, stress. Be concrete.]</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 HARİTA -->
+<section>
+  <div class="sec">
+    <div><span class="label">02</span><h2>The map</h2></div>
+    <div class="body">
+      <p>[How you observed the process and what you found. Mention the method briefly if it helps: value stream map, interviews, timing.]</p>
+      <!-- Süreç adımlarını yaz. Tıkanan adıma class="s jam" ver. -->
+      <div class="map">
+        <div class="s"><span>[Request comes in]</span></div>
+        <div class="s"><span>[Gets forwarded by email]</span></div>
+        <div class="s jam"><span>[Waits for approval]</span></div>
+        <div class="s"><span>[Gets done]</span></div>
+        <div class="s"><span>[Client is updated]</span></div>
+      </div>
+      <p class="map-note"><b>[Red step]:</b> [why it got stuck here, e.g. "3 days on average, no one knew whose turn it was."]</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 SİSTEM -->
+<section>
+  <div class="sec">
+    <div><span class="label">03</span><h2>The system</h2></div>
+    <div class="body">
+      <p>[What you built and why it is shaped this way. Keep it about the problem, not the technology.]</p>
+      <ul>
+        <li>[Key feature 1, and which step it fixes]</li>
+        <li>[Key feature 2]</li>
+        <li>[Key feature 3]</li>
+      </ul>
+      <!-- Ekran görüntüsü: img klasörüne koy ve aşağıdaki satırı aç -->
+      <div class="shot"><!-- <img src="img/[project]-1.jpg" alt="[What the screenshot shows]"> -->[Screenshot]</div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 SONUÇ -->
+<section>
+  <div class="sec">
+    <div><span class="label">04</span><h2>The result</h2></div>
+    <div class="body">
+      <p>[What changed after launch. Use real numbers. If you have none yet, say what you are measuring.]</p>
+      <div class="results">
+        <div class="r"><div class="num">[1]<small> day</small></div><div class="from">[was 3 days]</div><p>[Average approval time]</p></div>
+        <div class="r"><div class="num">[0]</div><div class="from">[was 2 / month]</div><p>[Missed deadlines]</p></div>
+        <div class="r"><div class="num">[5]<small> h</small></div><div class="from">[saved per week]</div><p>[Manual work removed]</p></div>
+      </div>
+      <!-- Müşteri yorumu varsa (izinle) -->
+      <blockquote>“[A short, real quote from the client.]”<cite>[Name, role]</cite></blockquote>
+    </div>
+  </div>
+</section>
+
+<div class="next">
+  <span class="label">Next stop</span><br>
+  <a class="cta" href="index.html#contact">Something stuck at your place? Let's talk.</a>
+</div>
+
+<footer><span>© Emre Kirsan</span><span>byemrekirsan.com</span></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wrong turn · Emre Kirsan</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/fonts/fonts.css">
+<style>
+@view-transition{navigation:auto}
+.top svg{view-transition-name:logo}
+:root{--bg:#e9ebe8;--ink:#0c0e12;--muted:#5b616b;--rule:#cfd3cf;--route:#ffb800;--stop:#2747f5}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0c0e12;--ink:#e9ebe8;--muted:#8d939c;--rule:#262a31;--stop:#6f86ff}}
+:root[data-theme="dark"]{--bg:#0c0e12;--ink:#e9ebe8;--muted:#8d939c;--rule:#262a31;--stop:#6f86ff}
+*{box-sizing:border-box;margin:0;padding:0}
+a{color:inherit}
+body{background:var(--bg);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+.top{padding:26px 32px}
+.top a{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600}
+.top svg{width:30px;height:30px}
+.top .ring{stroke:var(--bg)}
+main{flex:1;display:flex;flex-direction:column;justify-content:center;max-width:1000px;width:100%;margin:0 auto;padding:20px 32px 60px}
+.code{font-family:"Martian Mono",monospace;color:var(--muted);font-size:14px;letter-spacing:.06em}
+h1{font-family:"Anybody",sans-serif;font-weight:800;font-variation-settings:"wdth" 70;text-transform:uppercase;font-size:clamp(56px,11vw,140px);line-height:.88;letter-spacing:-.02em;margin-top:14px}
+p{margin-top:20px;color:var(--muted);font-size:19px;max-width:40ch}
+.home{display:inline-flex;gap:10px;align-items:center;margin-top:32px;font-weight:600;font-size:19px;text-decoration:none;width:max-content}
+.home span{border-bottom:3px solid var(--route);padding-bottom:2px}
+.home svg{transition:transform .25s}
+.home:hover svg{transform:translateX(-4px)}
+.road{margin-top:48px;width:100%;max-width:760px}
+.road svg{width:100%;height:auto;overflow:visible}
+.main{fill:none;stroke:var(--rule);stroke-width:6;stroke-linecap:round}
+.wrong{fill:none;stroke:var(--route);stroke-width:6;stroke-linecap:round}
+.back{fill:none;stroke:var(--ink);stroke-width:3;stroke-dasharray:2 9;stroke-linecap:round;opacity:0;transition:opacity .4s}
+.back.on{opacity:1}
+.bar{stroke:var(--ink);stroke-width:7;stroke-linecap:round}
+.node{fill:var(--stop);stroke:var(--bg);stroke-width:5}
+.dot{fill:var(--route);stroke:var(--ink);stroke-width:4}
+.shake{animation:shake .45s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media (prefers-reduced-motion: reduce){.shake{animation:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a href="/" aria-label="byemrekirsan, home">
+    <svg viewBox="200 260 680 620" aria-hidden="true"><path d="M300 540 H780 A240 240 0 1 0 710 710" fill="none" stroke="#ffb800" stroke-width="96" stroke-linecap="round"/><circle class="ring" cx="300" cy="540" r="62" fill="var(--stop)" stroke-width="22"/><circle class="ring" cx="722" cy="722" r="78" fill="#ffb800" stroke-width="24"/><circle cx="722" cy="722" r="30" fill="#0c0e12"/></svg>byemrekirsan</a>
+</header>
+
+<main>
+  <span class="code">404</span>
+  <h1 id="t">Wrong turn.</h1>
+  <p id="d">This road doesn't lead anywhere. The page may have moved, or the link has a typo.</p>
+  <a class="home" href="/"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 9H3M8 4 3 9l5 5"/></svg><span id="b">Back to the main road</span></a>
+
+  <div class="road" aria-hidden="true">
+    <svg viewBox="0 0 760 200">
+      <path class="main" d="M20 150 H740"/>
+      <path id="wrong" class="wrong" d="M20 150 H260 C 330 150 360 60 450 60 H560"/>
+      <line class="bar" x1="586" y1="38" x2="586" y2="82"/>
+      <line class="bar" x1="572" y1="38" x2="600" y2="38"/>
+      <path id="back" class="back" d="M566 78 C 580 130 620 150 700 150"/>
+      <path class="back" id="arrow" d="M690 140 L702 150 L690 160"/>
+      <circle class="node" cx="20" cy="150" r="11"/>
+      <g id="dotg"><circle id="dot" class="dot" r="10" cx="20" cy="150"/></g>
+    </svg>
+  </div>
+</main>
+
+<script>
+const TXT = {
+  en:{t:"Wrong turn.",d:"This road doesn't lead anywhere. The page may have moved, or the link has a typo.",b:"Back to the main road"},
+  tr:{t:"Yanlış sapak.",d:"Bu yol bir yere çıkmıyor. Sayfa taşınmış ya da bağlantıda bir yazım hatası olabilir.",b:"Ana yola dön"},
+  de:{t:"Falsch abgebogen.",d:"Diese Straße führt nirgendwohin. Die Seite wurde verschoben oder der Link enthält einen Tippfehler.",b:"Zurück zur Hauptstraße"}
+};
+let lang = 'en';
+try { const s = localStorage.getItem('lang'); if (TXT[s]) lang = s; } catch(e){}
+try { const th = localStorage.getItem('theme'); if (th) document.documentElement.dataset.theme = th; } catch(e){}
+document.documentElement.lang = lang;
+['t','d','b'].forEach(k => document.getElementById(k).textContent = TXT[lang][k]);
+
+// nokta yanlış sapağa girer, bariyere takılır, ana yolu geri gösterir
+const wrong = document.getElementById('wrong'), back = document.getElementById('back'),
+      dot = document.getElementById('dot'), g = document.getElementById('dotg');
+const L = wrong.getTotalLength(), reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+wrong.style.strokeDasharray = L;
+function place(f){ const p = wrong.getPointAtLength(L*f); dot.setAttribute('cx',p.x); dot.setAttribute('cy',p.y); wrong.style.strokeDashoffset = L*(1-f); }
+if (reduce){ place(1); back.classList.add('on'); document.getElementById('arrow').classList.add('on'); }
+else {
+  let start = null;
+  requestAnimationFrame(function step(ts){
+    if (start === null) start = ts;
+    const t = Math.min((ts-start)/2200,1), e = 1-Math.pow(1-t,3);
+    place(e);
+    if (t < 1) requestAnimationFrame(step);
+    else { g.classList.add('shake'); setTimeout(() => { back.classList.add('on'); document.getElementById('arrow').classList.add('on'); }, 450); }
+  });
+}
+</script>
+</body>
+</html>

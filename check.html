@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where does your work get stuck? · Emre Kirsan</title>
+<meta name="description" content="A 2-minute self-check for small businesses: 7 questions, a score, and the three places to start. Answers stay in your browser.">
+<meta property="og:title" content="Where does your work get stuck? A 2-minute check">
+<meta property="og:description" content="7 questions, a score, and the three places to start.">
+<meta property="og:image" content="https://byemrekirsan.com/og.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+@view-transition{navigation:auto}
+:root{--bg:#e9ebe8;--surface:#f7f8f6;--ink:#0c0e12;--muted:#5b616b;--rule:#cfd3cf;--route:#ffb800;--stop:#2747f5;--jam:#e5484d;--flow:#1f9d55}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0c0e12;--surface:#14171d;--ink:#e9ebe8;--muted:#8d939c;--rule:#262a31;--stop:#6f86ff;--jam:#ff6369;--flow:#3ccf7e}}
+:root[data-theme="dark"]{--bg:#0c0e12;--surface:#14171d;--ink:#e9ebe8;--muted:#8d939c;--rule:#262a31;--stop:#6f86ff;--jam:#ff6369;--flow:#3ccf7e}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit}
+button{font:inherit;color:inherit}
+.page{max-width:900px;width:100%;margin:0 auto;padding:0 32px;flex:1;display:flex;flex-direction:column}
+.top{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+.top a.home{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600}
+.top svg{width:30px;height:30px;view-transition-name:logo}
+.top .ring{stroke:var(--bg)}
+.switch{display:flex;gap:2px;align-items:center;font-size:14px;color:var(--muted)}
+.switch button{background:none;border:none;cursor:pointer;padding:4px 5px}
+.switch button[aria-pressed="true"]{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--route);text-decoration-thickness:3px;text-underline-offset:5px}
+.label{font-family:"Martian Mono",monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:30px 0 70px}
+.screen{display:none}
+.screen.on{display:block;animation:in .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+h1{font-family:"Anybody",sans-serif;font-weight:800;font-variation-settings:"wdth" 72;text-transform:uppercase;font-size:clamp(46px,8vw,96px);line-height:.9;letter-spacing:-.02em;margin-top:14px;max-width:13ch}
+.intro p{margin-top:22px;font-size:21px;max-width:38ch}
+.intro .small{font-size:15px;color:var(--muted);margin-top:14px}
+.btn{display:inline-flex;align-items:center;gap:12px;margin-top:32px;padding:16px 26px;border-radius:999px;border:2px solid var(--ink);background:var(--ink);color:var(--bg);font-weight:600;font-size:18px;cursor:pointer;text-decoration:none;transition:background .2s,color .2s,border-color .2s}
+.btn:hover{background:var(--route);border-color:var(--route);color:#0c0e12}
+.btn.ghost{background:none;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* ilerleme: 7 durak */
+.prog{display:flex;align-items:center;margin-bottom:38px}
+.prog i{width:14px;height:14px;border-radius:50%;border:3px solid var(--muted);background:var(--bg);flex:none;transition:.3s}
+.prog i.done{border-color:var(--ink);background:var(--route)}
+.prog i.cur{border-color:var(--ink);background:var(--stop);transform:scale(1.25)}
+.prog b{flex:1;height:4px;background:var(--rule);transition:background .3s}
+.prog b.done{background:var(--route)}
+.q h2{font-family:"Anybody",sans-serif;font-weight:700;font-variation-settings:"wdth" 92;font-size:clamp(28px,4vw,44px);line-height:1.05;letter-spacing:-.01em;max-width:22ch;margin-top:10px}
+.opts{display:grid;gap:12px;margin-top:30px}
+.opt{display:flex;gap:16px;align-items:center;text-align:left;padding:16px 20px;border:2px solid var(--rule);border-radius:14px;background:var(--surface);cursor:pointer;font-size:17.5px;transition:border-color .15s,transform .15s}
+.opt:hover,.opt:focus-visible{border-color:var(--ink);transform:translateX(4px);outline:none}
+.opt.sel{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.opt .k{font-family:"Martian Mono",monospace;font-size:12px;width:26px;height:26px;flex:none;border-radius:50%;border:1.5px solid var(--muted);display:grid;place-items:center;color:var(--muted)}
+.opt.sel .k{background:var(--route);border-color:var(--ink);color:#0c0e12}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px}
+.back{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:6px 0}
+.back:hover{color:var(--ink)}
+.back[disabled]{visibility:hidden}
+
+/* sonuç */
+.score{display:flex;align-items:flex-end;gap:18px;margin-top:10px;flex-wrap:wrap}
+.score .n{font-family:"Anybody",sans-serif;font-weight:800;font-variation-settings:"wdth" 80;font-size:clamp(96px,16vw,180px);line-height:.8}
+.score .n small{font-size:.28em;color:var(--muted);font-weight:600}
+.score .lvl{font-family:"Anybody",sans-serif;font-weight:700;font-variation-settings:"wdth" 95;text-transform:uppercase;font-size:clamp(24px,3vw,34px);line-height:1;padding-bottom:10px}
+.res-lead{margin-top:18px;font-size:19px;max-width:46ch}
+.road{margin-top:40px;display:grid;grid-template-columns:repeat(7,1fr);gap:0}
+.seg{position:relative;padding-top:30px}
+.seg::before{content:"";position:absolute;top:10px;left:0;right:0;height:8px;background:var(--c,var(--rule))}
+.seg:first-child::before{border-radius:8px 0 0 8px}.seg:last-child::before{border-radius:0 8px 8px 0}
+.seg.jam::before{background:repeating-linear-gradient(90deg,var(--jam) 0 9px,transparent 9px 14px)}
+.seg::after{content:"";position:absolute;top:6px;left:-1px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:3px solid var(--ink)}
+.seg span{display:block;font-size:13px;line-height:1.25;color:var(--muted);padding-right:6px}
+.seg.jam span{color:var(--jam);font-weight:600}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:13.5px;color:var(--muted)}
+.legend i{display:inline-block;width:22px;height:6px;border-radius:4px;margin-right:6px;vertical-align:middle}
+.recs{display:grid;gap:14px;margin-top:40px}
+.rec{display:grid;grid-template-columns:46px 1fr;gap:14px;padding:20px;border:1px solid var(--rule);border-radius:14px;background:var(--surface)}
+.rec .num{font-family:"Martian Mono",monospace;font-size:13px;width:34px;height:34px;border-radius:50%;background:var(--route);color:#0c0e12;display:grid;place-items:center;font-weight:500}
+.rec h3{font-size:18.5px;font-weight:600;line-height:1.3}
+.rec p{margin-top:4px;color:var(--muted);font-size:16px}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.note{margin-top:28px;font-size:14px;color:var(--muted);max-width:60ch}
+.again{background:none;border:none;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:15px;margin-top:20px}
+footer{display:flex;justify-content:space-between;padding:26px 0 40px;border-top:1px solid var(--rule);color:var(--muted);font-size:14px}
+@media (max-width:700px){
+  .page{padding:0 18px}
+  .road{grid-template-columns:1fr;gap:0;padding-left:26px}
+  .seg{padding:0 0 18px 18px}
+  .seg::before{top:0;bottom:0;left:-20px;right:auto;width:8px;height:auto}
+  .seg:first-child::before{border-radius:8px 8px 0 0}.seg:last-child::before{border-radius:0 0 8px 8px}
+  .seg.jam::before{background:repeating-linear-gradient(180deg,var(--jam) 0 9px,transparent 9px 14px)}
+  .seg::after{top:0;left:-24px}
+  .seg span{font-size:15px}
+}
+@media (prefers-reduced-motion: reduce){.screen.on{animation:none}.opt{transition:none}}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="top">
+  <a class="home" href="index.html" aria-label="byemrekirsan, home">
+    <svg viewBox="200 260 680 620" aria-hidden="true"><path d="M300 540 H780 A240 240 0 1 0 710 710" fill="none" stroke="#ffb800" stroke-width="96" stroke-linecap="round"/><circle class="ring" cx="300" cy="540" r="62" fill="var(--stop)" stroke-width="22"/><circle class="ring" cx="722" cy="722" r="78" fill="#ffb800" stroke-width="24"/><circle cx="722" cy="722" r="30" fill="#0c0e12"/></svg>byemrekirsan</a>
+  <div class="switch" role="group" aria-label="Language">
+    <button data-lang="en" aria-pressed="true">EN</button><span>/</span>
+    <button data-lang="tr" aria-pressed="false">TR</button><span>/</span>
+    <button data-lang="de" aria-pressed="false">DE</button>
+  </div>
+</header>
+
+<main aria-live="polite">
+  <!-- GİRİŞ -->
+  <section class="screen intro on" id="s-intro">
+    <span class="label" data-t="kicker">2-minute check · 7 questions</span>
+    <h1 data-t="title">Where does your work get stuck?</h1>
+    <p data-t="desc">Seven quick questions about how work moves through your business. At the end you get a score, a map of the slow spots, and three places to start.</p>
+    <p class="small" data-t="privacy">Your answers stay in your browser. Nothing is sent anywhere unless you choose to email me the result.</p>
+    <button class="btn" id="start"><span data-t="start">Start the check</span> →</button>
+  </section>
+
+  <!-- SORU -->
+  <section class="screen q" id="s-q">
+    <div class="prog" id="prog"></div>
+    <span class="label" id="qnum"></span>
+    <h2 id="qtext"></h2>
+    <div class="opts" id="opts" role="list"></div>
+    <div class="nav"><button class="back" id="prev" data-t="prev">← Previous question</button></div>
+  </section>
+
+  <!-- SONUÇ -->
+  <section class="screen" id="s-res">
+    <span class="label" data-t="resKicker">Your result</span>
+    <div class="score"><div class="n" id="score">0<small>/100</small></div><div class="lvl" id="lvl"></div></div>
+    <p class="res-lead" id="resLead"></p>
+    <div class="road" id="road"></div>
+    <div class="legend"><span><i style="background:var(--flow)"></i><span data-t="lgFlow">Flowing</span></span><span><i style="background:var(--route)"></i><span data-t="lgSlow">Slow</span></span><span><i style="background:repeating-linear-gradient(90deg,var(--jam) 0 6px,transparent 6px 9px)"></i><span data-t="lgJam">Stuck</span></span></div>
+    <div class="recs" id="recs"></div>
+    <div class="cta-row">
+      <a class="btn" id="mail" href="#"><span data-t="mail">Email me this result</span> →</a>
+      <a class="btn ghost" href="example-case-study.html" data-t="seeEx">See an example project</a>
+    </div>
+    <p class="note" data-t="disclaimer">This is a quick self-check, not a full analysis. A real assessment means watching the work as it happens.</p>
+    <button class="again" id="again" data-t="again">Start over</button>
+  </section>
+</main>
+
+<footer><span>© Emre Kirsan</span><span>byemrekirsan.com</span></footer>
+</div>
+
+<script>
+const DIMS = ['intake','handoffs','manual','visibility','reliability','dependency','measurement'];
+const T = {
+en:{
+  kicker:"2-minute check · 7 questions", title:"Where does your work get stuck?",
+  desc:"Seven quick questions about how work moves through your business. At the end you get a score, a map of the slow spots, and three places to start.",
+  privacy:"Your answers stay in your browser. Nothing is sent anywhere unless you choose to email me the result.",
+  start:"Start the check", prev:"← Previous question", q:"Question", of:"of",
+  resKicker:"Your result", lgFlow:"Flowing", lgSlow:"Slow", lgJam:"Stuck",
+  mail:"Email me this result", seeEx:"See an example project", again:"Start over",
+  disclaimer:"This is a quick self-check, not a full analysis. A real assessment means watching the work as it happens.",
+  levels:[["Heavy traffic","Work gets stuck in several places. The good news: the first fixes are usually simple and pay off fast."],
+          ["A few slow junctions","Most things move, but a few spots cost you time every week. Fixing those is where the gains are."],
+          ["Mostly moving","Work flows well. The next gains are in the details, and in measuring what you already do."]],
+  allGood:["Keep it that way","Pick one number you care about and track it weekly, so you notice early when something starts to slow down."],
+  dimNames:{intake:"Incoming requests",handoffs:"Handoffs",manual:"Copying by hand",visibility:"Status overview",reliability:"Deadlines",dependency:"Key-person risk",measurement:"Measuring"},
+  recs:{
+    intake:["Bring requests in through one door","A simple form or one shared inbox, so no job starts its life inside someone's private chat."],
+    handoffs:["Make handoffs visible","A shared board where a job moves from column to column tells the next person it's their turn, without a message."],
+    manual:["Find the copy-paste step","Anything typed twice should be typed once. This is usually the quickest win."],
+    visibility:["Put the status in one place","One list that everyone updates beats ten \"where are we with this?\" questions a day."],
+    reliability:["Give every deadline an owner and a reminder","Write down who is responsible, and let a system do the reminding instead of memory."],
+    dependency:["Write the common jobs down","A one-page checklist for the most frequent tasks takes pressure off the people everyone depends on."],
+    measurement:["Pick three numbers","Track a few things every week, like orders, delays and time spent. Decisions get much easier."]
+  },
+  Q:[
+   ["Where do new requests or orders come in?",["In one place: a form or a system","Mostly one channel, sometimes elsewhere","Many channels: WhatsApp, calls, email…","Wherever, depending on who's around"]],
+   ["When a job moves from one person to the next, how does the next person know?",["The system shows or notifies them","A shared list that someone updates","Someone tells them or sends a message","They often find out late"]],
+   ["How much of your week goes into copying information from one place to another?",["Almost none","Less than an hour","A few hours","A day or more"]],
+   ["Right now, could you see the status of every open job?",["Yes, on one screen","Yes, but I'd check a few places","Only by asking people","Not really"]],
+   ["How often is a deadline, order or follow-up missed?",["Almost never","A few times a year","Every month","Every week"]],
+   ["If one key person is away for a week, what happens?",["Work goes on, it's all written down","It's slower, but fine","Some things wait for them","Things stop"]],
+   ["How do you know whether this month went better than last month?",["Numbers in a report or dashboard","Rough numbers in a spreadsheet","Gut feeling","We don't really track it"]]
+  ],
+  mailSubj:"Check result", mailIntro:"Hi Emre, here is my result from the check on your site:", mailWeak:"Weakest spots:", mailEnd:"I'd like to talk about it."
+},
+tr:{
+  kicker:"2 dakikalık test · 7 soru", title:"İşiniz nerede tıkanıyor?",
+  desc:"İşin işletmenizde nasıl ilerlediğine dair yedi kısa soru. Sonunda bir skor, yavaşlayan noktaların haritası ve başlamanız gereken üç yer çıkıyor.",
+  privacy:"Cevaplarınız tarayıcınızda kalır. Sonucu bana e-postayla göndermeyi seçmediğiniz sürece hiçbir yere gönderilmez.",
+  start:"Teste başla", prev:"← Önceki soru", q:"Soru", of:"/",
+  resKicker:"Sonucunuz", lgFlow:"Akıyor", lgSlow:"Yavaş", lgJam:"Tıkalı",
+  mail:"Sonucu bana e-postayla gönder", seeEx:"Örnek bir projeye bak", again:"Baştan başla",
+  disclaimer:"Bu hızlı bir öz değerlendirme, tam bir analiz değil. Gerçek bir değerlendirme, işi yapılırken yerinde izlemeyi gerektirir.",
+  levels:[["Yoğun trafik","İş birkaç yerde tıkanıyor. İyi haber şu: İlk düzeltmeler genelde basit ve hızlı sonuç verir."],
+          ["Birkaç yavaş kavşak","İşlerin çoğu ilerliyor, ama birkaç nokta her hafta zaman kaybettiriyor. Kazanç tam orada."],
+          ["Büyük ölçüde akıyor","İş iyi akıyor. Sıradaki kazanç detaylarda ve zaten yaptıklarınızı ölçmekte."]],
+  allGood:["Böyle devam","Önem verdiğiniz tek bir rakamı seçip her hafta takip edin. Bir şey yavaşlamaya başladığında erkenden fark edersiniz."],
+  dimNames:{intake:"Gelen talepler",handoffs:"Devir teslim",manual:"Elle kopyalama",visibility:"Durum takibi",reliability:"Süreler",dependency:"Kilit kişi riski",measurement:"Ölçüm"},
+  recs:{
+    intake:["Talepleri tek kapıdan alın","Basit bir form ya da tek bir ortak gelen kutusu. Böylece hiçbir iş birinin özel sohbetinde başlamaz."],
+    handoffs:["Devir teslimi görünür yapın","İşin sütundan sütuna ilerlediği ortak bir pano, sıranın kendisinde olduğunu bir sonraki kişiye mesaj atmadan söyler."],
+    manual:["Kopyala-yapıştır adımını bulun","İki kez yazılan her şey bir kez yazılmalı. Genelde en hızlı kazanç budur."],
+    visibility:["Durumu tek bir yerde toplayın","Herkesin güncellediği tek bir liste, günde on kez sorulan \"bu iş ne durumda?\" sorusundan iyidir."],
+    reliability:["Her sürenin bir sahibi ve bir hatırlatıcısı olsun","Sorumlunun kim olduğunu yazın, hatırlatmayı hafızaya değil bir sisteme bırakın."],
+    dependency:["Sık yapılan işleri yazıya dökün","En sık yapılan işler için tek sayfalık bir kontrol listesi, herkesin bağlı olduğu kişilerin yükünü hafifletir."],
+    measurement:["Üç rakam seçin","Sipariş, gecikme, harcanan zaman gibi birkaç şeyi her hafta takip edin. Kararlar çok kolaylaşır."]
+  },
+  Q:[
+   ["Yeni talepler ya da siparişler nereden geliyor?",["Tek bir yerden: bir form ya da sistem","Çoğunlukla tek kanaldan, bazen başka yerden","Birçok kanaldan: WhatsApp, telefon, e-posta…","Nereden gelirse, kim müsaitse ona göre"]],
+   ["Bir iş bir kişiden diğerine geçtiğinde, sıradaki kişi bunu nasıl öğreniyor?",["Sistem gösteriyor ya da bildiriyor","Birinin güncellediği ortak bir listeden","Biri söylüyor ya da mesaj atıyor","Çoğu zaman geç öğreniyor"]],
+   ["Haftanızın ne kadarı bilgiyi bir yerden başka bir yere aktarmakla geçiyor?",["Neredeyse hiç","Bir saatten az","Birkaç saat","Bir gün ya da daha fazla"]],
+   ["Şu an açık olan her işin durumunu görebilir misiniz?",["Evet, tek bir ekranda","Evet, ama birkaç yere bakmam gerekir","Ancak insanlara sorarak","Pek sayılmaz"]],
+   ["Bir süre, sipariş ya da takip ne sıklıkla kaçıyor?",["Neredeyse hiç","Yılda birkaç kez","Her ay","Her hafta"]],
+   ["Kilit bir kişi bir hafta yoksa ne oluyor?",["İş devam ediyor, her şey yazılı","Yavaşlıyor ama sorun olmuyor","Bazı işler onu bekliyor","İşler duruyor"]],
+   ["Bu ayın geçen aydan iyi geçip geçmediğini nasıl anlıyorsunuz?",["Rapor ya da panodaki rakamlardan","Tablodaki kabaca rakamlardan","İçimden gelen hisle","Pek takip etmiyoruz"]]
+  ],
+  mailSubj:"Test sonucu", mailIntro:"Merhaba Emre, sitendeki testten aldığım sonuç:", mailWeak:"En zayıf noktalar:", mailEnd:"Bunu konuşmak isterim."
+},
+de:{
+  kicker:"2-Minuten-Check · 7 Fragen", title:"Wo hakt es bei Ihnen?",
+  desc:"Sieben kurze Fragen dazu, wie Arbeit durch Ihr Unternehmen läuft. Am Ende erhalten Sie eine Punktzahl, eine Karte der langsamen Stellen und drei Ansatzpunkte.",
+  privacy:"Ihre Antworten bleiben in Ihrem Browser. Es wird nichts gesendet, außer Sie schicken mir das Ergebnis per E-Mail.",
+  start:"Check starten", prev:"← Vorherige Frage", q:"Frage", of:"von",
+  resKicker:"Ihr Ergebnis", lgFlow:"Läuft", lgSlow:"Langsam", lgJam:"Hakt",
+  mail:"Ergebnis per E-Mail senden", seeEx:"Ein Beispielprojekt ansehen", again:"Neu starten",
+  disclaimer:"Dies ist ein schneller Selbstcheck, keine vollständige Analyse. Eine echte Bewertung bedeutet, die Arbeit vor Ort zu beobachten.",
+  levels:[["Viel Verkehr","Die Arbeit hakt an mehreren Stellen. Die gute Nachricht: Die ersten Verbesserungen sind meist einfach und wirken schnell."],
+          ["Ein paar langsame Kreuzungen","Das meiste läuft, aber einige Stellen kosten jede Woche Zeit. Genau dort liegt der Gewinn."],
+          ["Läuft überwiegend","Die Arbeit fließt gut. Die nächsten Gewinne liegen im Detail und darin, das zu messen, was Sie schon tun."]],
+  allGood:["Weiter so","Wählen Sie eine Kennzahl, die Ihnen wichtig ist, und verfolgen Sie sie wöchentlich. So merken Sie früh, wenn etwas langsamer wird."],
+  dimNames:{intake:"Eingehende Anfragen",handoffs:"Übergaben",manual:"Abtippen",visibility:"Statusübersicht",reliability:"Fristen",dependency:"Schlüsselpersonen",measurement:"Messen"},
+  recs:{
+    intake:["Anfragen durch eine Tür hereinholen","Ein einfaches Formular oder ein gemeinsames Postfach, damit kein Auftrag in einem privaten Chat beginnt."],
+    handoffs:["Übergaben sichtbar machen","Ein gemeinsames Board, auf dem ein Auftrag von Spalte zu Spalte wandert, zeigt der nächsten Person ohne Nachricht, dass sie dran ist."],
+    manual:["Den Copy-Paste-Schritt finden","Was zweimal getippt wird, sollte nur einmal getippt werden. Das ist meist der schnellste Gewinn."],
+    visibility:["Den Status an einem Ort bündeln","Eine Liste, die alle aktualisieren, ist besser als zehnmal am Tag „Wie weit sind wir damit?“."],
+    reliability:["Jede Frist braucht eine Verantwortliche und eine Erinnerung","Halten Sie fest, wer zuständig ist, und überlassen Sie das Erinnern einem System statt dem Gedächtnis."],
+    dependency:["Häufige Aufgaben aufschreiben","Eine einseitige Checkliste für die häufigsten Aufgaben entlastet die Personen, von denen alle abhängen."],
+    measurement:["Drei Kennzahlen wählen","Verfolgen Sie wöchentlich ein paar Dinge wie Aufträge, Verzögerungen und Zeitaufwand. Entscheidungen werden viel leichter."]
+  },
+  Q:[
+   ["Wo kommen neue Anfragen oder Bestellungen an?",["An einem Ort: Formular oder System","Meist über einen Kanal, manchmal anders","Über viele Kanäle: WhatsApp, Telefon, E-Mail…","Irgendwo, je nachdem, wer gerade da ist"]],
+   ["Wenn ein Auftrag von einer Person zur nächsten geht, woher weiß die nächste Person das?",["Das System zeigt es an oder benachrichtigt","Eine gemeinsame Liste, die jemand pflegt","Jemand sagt es oder schreibt eine Nachricht","Sie erfährt es oft zu spät"]],
+   ["Wie viel Ihrer Woche geht dafür drauf, Informationen von einer Stelle zur anderen zu übertragen?",["Fast nichts","Weniger als eine Stunde","Ein paar Stunden","Ein Tag oder mehr"]],
+   ["Könnten Sie jetzt sofort den Stand jedes offenen Auftrags sehen?",["Ja, auf einem Bildschirm","Ja, aber ich müsste an mehreren Stellen schauen","Nur, indem ich Leute frage","Eigentlich nicht"]],
+   ["Wie oft wird eine Frist, Bestellung oder Nachverfolgung verpasst?",["Fast nie","Ein paar Mal im Jahr","Jeden Monat","Jede Woche"]],
+   ["Was passiert, wenn eine Schlüsselperson eine Woche fehlt?",["Es läuft weiter, alles ist dokumentiert","Langsamer, aber es geht","Manches wartet auf sie","Es steht still"]],
+   ["Woher wissen Sie, ob dieser Monat besser lief als der letzte?",["Zahlen in einem Bericht oder Dashboard","Grobe Zahlen in einer Tabelle","Bauchgefühl","Wir verfolgen das kaum"]]
+  ],
+  mailSubj:"Check-Ergebnis", mailIntro:"Hallo Emre, hier ist mein Ergebnis aus dem Check auf Ihrer Website:", mailWeak:"Schwächste Stellen:", mailEnd:"Ich würde gern darüber sprechen."
+}};
+
+let lang='en', cur=0, answers=new Array(7).fill(null);
+const $=id=>document.getElementById(id);
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id)); scrollTo({top:0,behavior:'smooth'});}
+
+function renderStatic(){
+  const d=T[lang];
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-t]').forEach(el=>{const v=d[el.dataset.t]; if(typeof v==='string') el.textContent=v;});
+  document.title=d.title+' · Emre Kirsan';
+  document.querySelectorAll('.switch [data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));
+}
+function renderQ(){
+  const d=T[lang], [qt,opts]=d.Q[cur];
+  $('prog').innerHTML=DIMS.map((_,i)=>`${i?`<b class="${i<=cur?'done':''}"></b>`:''}<i class="${i<cur?'done':i===cur?'cur':''}"></i>`).join('');
+  $('qnum').textContent=lang==='tr'?`${d.q} ${cur+1} ${d.of} 7`:`${d.q} ${cur+1} ${d.of} 7`;
+  $('qtext').textContent=qt;
+  $('opts').innerHTML=opts.map((o,i)=>`<button class="opt${answers[cur]===3-i?' sel':''}" data-v="${3-i}" role="listitem"><span class="k">${'ABCD'[i]}</span><span>${o}</span></button>`).join('');
+  $('opts').querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>pick(+b.dataset.v,b)));
+  $('prev').disabled=cur===0;
+}
+function pick(v,btn){
+  answers[cur]=v;
+  $('opts').querySelectorAll('.opt').forEach(b=>b.classList.toggle('sel',b===btn));
+  setTimeout(()=>{ if(cur<6){cur++; renderQ();} else results(); },260);
+}
+function level(score){return score<40?0:score<70?1:2;}
+function results(){
+  const d=T[lang], sum=answers.reduce((a,b)=>a+b,0), score=Math.round(sum/21*100), L=level(score);
+  const n=$('score'); n.firstChild.textContent='0';
+  // sayıyı say
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches; let t0=null;
+  if(reduce) n.firstChild.textContent=score; else requestAnimationFrame(function step(ts){ if(!t0)t0=ts; const k=Math.min((ts-t0)/900,1); n.firstChild.textContent=Math.round(score*(1-Math.pow(1-k,3))); if(k<1) requestAnimationFrame(step); });
+  $('lvl').textContent=d.levels[L][0]; $('resLead').textContent=d.levels[L][1];
+  $('road').innerHTML=DIMS.map((k,i)=>{const v=answers[i]; const cls=v<=1?'jam':''; const c=v===3?'var(--flow)':v===2?'var(--route)':''; return `<div class="seg ${cls}" style="${c?`--c:${c}`:''}"><span>${d.dimNames[k]}</span></div>`;}).join('');
+  // en zayıf 3 alan (puanı 2 veya altı)
+  const weak=DIMS.map((k,i)=>({k,v:answers[i],i})).filter(x=>x.v<=2).sort((a,b)=>a.v-b.v||a.i-b.i).slice(0,3);
+  const items=weak.length?weak.map(x=>d.recs[x.k]):[d.allGood];
+  $('recs').innerHTML=items.map((r,i)=>`<div class="rec"><span class="num">${i+1}</span><div><h3>${r[0]}</h3><p>${r[1]}</p></div></div>`).join('');
+  const body=`${d.mailIntro}\n\n${score}/100: ${d.levels[L][0]}\n${d.mailWeak} ${weak.map(x=>d.dimNames[x.k]).join(', ')||'-'}\n\n${d.mailEnd}\n`;
+  $('mail').href=`mailto:hello@byemrekirsan.com?subject=${encodeURIComponent(d.mailSubj+': '+score+'/100')}&body=${encodeURIComponent(body)}`;
+  show('s-res');
+  // Analiz aracı kurulunca (Umami) tamamlanan testleri sayar; şimdilik bir şey yapmaz
+  try{ window.umami && umami.track('check-complete',{score}); }catch(e){}
+}
+$('start').addEventListener('click',()=>{cur=0; renderQ(); show('s-q');});
+$('prev').addEventListener('click',()=>{ if(cur>0){cur--; renderQ();} });
+$('again').addEventListener('click',()=>{answers.fill(null); cur=0; show('s-intro');});
+document.addEventListener('keydown',e=>{
+  if(!$('s-q').classList.contains('on')) return;
+  const i='abcd1234'.indexOf(e.key.toLowerCase()); if(i<0) return;
+  const btn=$('opts').querySelectorAll('.opt')[i%4]; if(btn) btn.click();
+});
+document.querySelectorAll('.switch [data-lang]').forEach(b=>b.addEventListener('click',()=>{
+  lang=b.dataset.lang; try{localStorage.setItem('lang',lang);}catch(e){}
+  renderStatic();
+  if($('s-q').classList.contains('on')) renderQ();
+  if($('s-res').classList.contains('on')) results();
+}));
+try{const th=localStorage.getItem('theme'); if(th) document.documentElement.dataset.theme=th;}catch(e){}
+try{const s=localStorage.getItem('lang'); if(T[s]) lang=s;}catch(e){}
+renderStatic();
+</script>
+</body>
+</html>
